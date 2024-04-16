@@ -1,18 +1,29 @@
 "use client";
-import React from "react";
-import { useSearchParams, useRouter } from "next/navigation";
+import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import icon from "../../public/images/icon-list.svg";
 import Image from "next/image";
 
 const Subscribed = () => {
-  const searchParams = useSearchParams();
+  const [loading, setLoading] = useState(true);
+  const [email, setEmail] = useState("");
   const router = useRouter();
 
-  const email = searchParams.get("email");
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const emailParam = params.get("email");
+    setEmail(emailParam);
+    setLoading(false);
+  }, []);
 
   const onClick = () => {
     router.push("/");
   };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div className="bg-charcoal-grey h-screen">
       <div className="h-screen flex justify-center items-center">
@@ -46,3 +57,4 @@ const Subscribed = () => {
 };
 
 export default Subscribed;
+
