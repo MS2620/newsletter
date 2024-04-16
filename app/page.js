@@ -11,13 +11,19 @@ export default function Home() {
   const router = useRouter();
   const [isMobile, setIsMobile] = useState(false);
   const [email, setEmail] = useState("");
-  const [width, setWidth] = useState(window.innerWidth);
+  const [width, setWidth] = useState(0);
+
   const updateDimensions = () => {
     setWidth(window.innerWidth);
   };
+
   useEffect(() => {
-    window.addEventListener("resize", updateDimensions);
-    return () => window.removeEventListener("resize", updateDimensions);
+    // Check if window is defined before accessing it
+    if (typeof window !== "undefined") {
+      setWidth(window.innerWidth);
+      window.addEventListener("resize", updateDimensions);
+      return () => window.removeEventListener("resize", updateDimensions);
+    }
   }, []);
 
   useEffect(() => {
